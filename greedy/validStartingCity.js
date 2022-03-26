@@ -1,17 +1,23 @@
+// O(n) time | O(1} space
+// Simple pass
 function validStartingCity(distances, fuel, mpg) {
-	let idx = 1, start = totalDistance = totalFuel = 0;
+	let totalDistance, totalFuel, start, idx = 1;
+	
 	while (idx <= distances.length) {
-		while (distances[idx - 1] < fuel[idx - 1] * mpg) {
+		totalDistance = distances[idx - 1];
+		totalFuel = fuel[idx - 1] * mpg;
+		while (totalDistance > totalFuel) {
 			idx++;
+			totalDistance = distances[idx - 1];
+			totalFuel = fuel[idx - 1] * mpg;
 		}
-		if (idx == distances.length) return start;
-		start = idx;
-		totalDistance += distances[idx - 1];
-		totalFuel += (fuel[idx - 1] * mpg);
-		
-		if (totalDistance < totalFuel) {
-			totalDistance = 0;
-			totalFuel = 0;
+		start = idx - 1;
+		while (totalDistance <= totalFuel) {
+			idx++;
+			totalDistance += distances[idx - 1];
+			totalFuel += fuel[idx - 1] * mpg;
 		}
-		
+	}
+	return start;
 }
+
